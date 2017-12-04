@@ -11,6 +11,12 @@
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
+              <link 
+          th:href="@{/css/agency.css}"
+          rel="stylesheet" media="screen" />
+                  <link 
+          th:href="@{/css/agency.min.css}"
+          rel="stylesheet" media="screen" />
 
   </head>
 <style>
@@ -25,7 +31,7 @@
     <!-- navbar container starts -->
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-list"></span><bold> Home</bold></a>
+            <a class="navbar-brand" href="#" th:href="@{/gotomain}"><span class="glyphicon glyphicon-list"></span><bold> Home</bold></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -44,30 +50,30 @@
         <div class="row">
           <div class="col-sm-3">
             <div class="team-member">
-              <img src="/img/team/rohit.jpg" th:src="@{src/main/resources/static/images/team/rohit.jpg}">     
+              <img  th:src="@{/images/team/rohit.jpg}" />     
               <h4>Rohit Desai</h4>
-              <p>rdesai30 A20370674</p>
+              <p>rdesai30 <br></br> A20370674</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="team-member">
-              <img class="mx-auto " th:src="@{/img/team/shreya.jpg}" alt="">
-              <h4>Shreya Vishalakshy</h4>
-              <p >svishalakshy@hawk.iit.edu A20402026</p>
+               <img  th:src="@{/images/team/shreya.JPG}" />
+              <h4>Sriya Vishalakshy</h4>
+              <p >svishalakshy@hawk.iit.edu <br></br> A20402026</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="team-member">
-              <img class="mx-auto " th:src="@{/img/team/hemant.jpg}" alt="">
+             <img  th:src="@{/images/team/hemant.jpg}" />
               <h4>Hemant Shinde</h4>
-              <p >hshinde@hawk.iit.edu A20370088</p>
+              <p >hshinde@hawk.iit.edu <br></br> A20370088</p>
             </div>
           </div>
           <div class="col-sm-3">
             <div class="team-member">
-              <img  th:src="@{/img/team/ashish.jpeg}" alt="">
+              <img  th:src="@{/images/team/ashish.jpeg}" />
               <h4>Ashish Solanki</h4>
-              <p >asolanki@hawk.iit.edu A20394588</p>
+              <p >asolanki@hawk.iit.edu <br></br> A20394588</p>
             </div>
           </div>
         </div>

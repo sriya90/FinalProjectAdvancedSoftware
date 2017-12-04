@@ -11,6 +11,12 @@
     <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
           th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
           rel="stylesheet" media="screen" />
+          <link 
+          th:href="@{/css/agency.css}"
+          rel="stylesheet" media="screen" />
+                  <link 
+          th:href="@{/css/agency.min.css}"
+          rel="stylesheet" media="screen" />
 
 
   </head>
@@ -22,8 +28,8 @@
 <nav class="navbar  navbar-dark">
     <!-- navbar container starts -->
     <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-list"></span><bold> Home</bold></a>
+      <div class="navbar-header">
+            <a class="navbar-brand" href="#" th:href="@{/gotomain}"><span class="glyphicon glyphicon-list"></span><bold> Home</bold></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
