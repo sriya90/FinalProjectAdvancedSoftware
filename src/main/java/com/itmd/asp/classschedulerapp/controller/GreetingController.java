@@ -51,6 +51,15 @@ public class GreetingController {
         return "index";
     }
     
+    @GetMapping(value ="/**/about")
+    public String about() {
+        return "about";
+    }
+    
+    @GetMapping(value ="/**/features")
+    public String features() {
+        return "features";
+    }
     @PostMapping(value ="/**/validateUser")
     public String validateUser(@ModelAttribute User user,HttpSession session,Model model,RedirectAttributes redirectAttributes) {
    User username = userRepositary.findUserByUsernamePassword(user.getUserName(),user.getPassword());

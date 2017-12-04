@@ -2,11 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <mvc:annotation-driven ignoreDefaultModelOnRedirect="true" />
 <head lang="en">
-<%        
-    response.setHeader("Pragma", "No-cache");
-    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    response.setDateHeader("Expires", "0");
-%>
+
 
     <title>Course Scheduler App</title>
     <!-- Bootstrap -->
@@ -49,8 +45,8 @@ th:href="@{/webjars/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js}">
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a href="#">Features</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="features.html" th:href="@{/features}" >Features</a></li>
+                <li><a href="about.html" th:href="@{/about}">About</a></li>
             </ul>
 
             <button type="button" class="btn btn-primary navbar-btn pull-right col-sm-1 navbar-btn" >Logout</button>
