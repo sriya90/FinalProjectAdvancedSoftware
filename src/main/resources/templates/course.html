@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>Course Scheduler App</title>
+    <!-- Bootstrap -->
+       <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen" />
+    <style>
+        .navbar{
+            margin-bottom:0;
+            border-radius:0;
+        }
+        .margin-left{
+            margin-right: 5px;
+        }
+        .jumbotron{
+            margin-bottom:0;
+            border-radius:0;
+        }
+
+    </style>
+</head>
+<body>
+  <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"
+th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
+></script>
+
+<!-- jumbotron starts -->
+<div class="jumbotron text-center">
+    <div class="container">
+        <h3  th:text="${CourseName}" ></h3>
+    </div>
+         <!-- navbar container starts -->
+<nav class="navbar  navbar-dark">
+    <!-- navbar container starts -->
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#" th:href="@{{coursename}/gotomain(coursename=${CourseName})}" ><span class="glyphicon glyphicon-list"></span><bold> Home</bold></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+           
+
+            <button type="button" class="btn btn-primary navbar-btn pull-right col-sm-1 navbar-btn" >Logout</button>
+
+        </div>
+    </div><!-- navbar container ends -->
+</nav><!-- navbar ends -->
+</div>
+<div class="row">
+        <!-- left sidebard starts -->
+        <div class="col-12 col-md-3 sidebar-offcanvas" id="sidebar" th:object="${course}">
+            <div class="list-group table-condensed" >
+                <a href="#" class="list-group-item active">Course Details</a>
+                <a href="#"   class="list-group-item" th:text="'Course Name : ' + ${course.courseName}">Course Name</a>
+              	<a href="#"   class="list-group-item" th:text="'Course Code : ' + ${course.courseCode}"></a>
+                <a  href="#"  class="list-group-item" th:text="'Course Sem : ' + ${course.sem}"></a>
+                <a href="#"   class="list-group-item" th:text="'Course TAName : ' + ${course.taName}"></a>
+                <a   href="#" class="list-group-item" th:text="'Course TAEmail : ' + ${course.taEmail}"></a>
+                <a  href="#"  class="list-group-item" th:text="'Course TAPhone : ' + ${course.taPhone}"></a>
+            </div>
+        </div>
+
+        <!-- add activity -->
+        <div class="container col-12 col-md-9">
+            <button type="button" class="btn btn-success pull-right col-sm-3 navbar-btn" data-target="#addActivityModal" data-toggle="modal">Add activity</button>
+       <!-- Right panel starts -->
+        <div class="col-12 col-md-9 table-responsive">
+            <table class="table table-striped table-bordered table-condensed">
+                <thead >
+                <tr>
+                    <th class="col-xs-2 text-center">Date</th>
+                    <th class="col-xs-6 text-center">Course Activity</th>
+                    <th class="col-xs-2 text-center">Action</th>
+                    <th class="col-xs-1 text-center">Status</th>
+                    <th class="col-xs-1 text-center">Edit</th>
+                    <th class="col-xs-1 text-center">Delete</th>
+                </tr>
+                </thead>
+                <tbody  >
+                <tr th:each="activities:${activityForCourseList}" >
+                    <td class="col-xs-2 text-center" th:text="${activities.activityStartDate}" >1 November</td>
+                    <td class="col-xs-6 text-left" th:text="${activities.activityCourse} +' - '+ ${activities.activityName} ">ITMD 515 - Assignment 2</td>
+                    <td class="col-xs-2 text-center">Upload on BB</td>
+                    <td class="col-xs-1 text-center"><span class="glyphicon glyphicon-ok"></span></td>
+					<td class="col-xs-1 text-center" ><a href="#" th:href="@{editfromcourse/{id}(id=${activities.activityId})}" ><span class="glyphicon glyphicon-glyphicon glyphicon-pencil" ></span></a></td>
+                    <td class="col-xs-1 text-center" > <a th:href="@{deletefromcourse/{id}(id=${activities.activityId})}" > <span class="glyphicon glyphicon glyphicon-trash"></span></a></td>
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div><!-- Right panel starts -->
+            <!-- add activity modal-->
+            <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="addActivityModal">
+                <div class="modal-dialog modal-default" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4>Add New Activity</h4>
+                        </div>
+	<form th:object ="${activity}" th:action ="@{addActivity}" method="post" action='blah' name="add_activity_form" >
+                        <div class="modal-body">
+
+                                <div class="form-group">
+                                    <label for="activityType">Activity Type</label>
+  										<select class="form-control" name ="activityName" th:field="*{activityName}">
+    										<option  value ="Assignment">Assignment</option>
+    										<option  value ="Project">Project</option>
+    										<option  value ="Quiz">Quiz</option>
+  										</select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="activityDate">Activity Date</label>
+   								 <input type="date" th:field="*{activityStartDate}" class="form-control"/>
+                                </div>
+                                
+                                     <div class="form-group">
+                                    <label for="activityEndDate">Activity End Date</label>
+   								 <input type="date" th:field="*{activityEndDate}" class="form-control"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="exampleFormControlFile1">Upload file</label>
+                                    <input type="file" class="form-control-file" id="exampleFormControlFile1"/>
+                                </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary">Add Activity</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </div><!-- add activity modal ends -->
+
+        </div> <!-- add activity ends -->
+    </div><!-- add course, activity button row ends -->
+
+  
+    
+        
+
+
+</body>
+</html>
