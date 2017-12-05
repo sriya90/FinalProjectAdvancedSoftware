@@ -125,7 +125,7 @@ th:href="@{/webjars/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js}">
                                 <div class="form-group">
                                     <label for="taPhone">Teaching Assistant Contact # :</label>
                                     <input
-											type="text" class="form-control" name="taPhone"
+											type="text" class="form-control" name="taPhone" pattern="^\+?\d{10,}"
 											maxlength="10" th:field="*{taPhone}" id="taPhone" placeholder="Teaching Assistant Contact #" required="required" />
                                 </div>
                         <div class="modal-footer">
@@ -163,6 +163,28 @@ th:href="@{/webjars/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js}">
             </div>
 <!-- date validation fail modal ends-->
 
+<!-- validation fail modal -->
+            <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="valselectcourse">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="text-align: center">
+                           
+                            <h4>Invalid Course</h4>
+                        </div>
+ 						<div class="modal-body" style="text-align: center">
+ 						
+ 						<h6>Please add new course. </h6>
+ 						</div>
+                       
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-target="#addActivityModal" data-toggle="modal" data-dismiss="modal">Close</button>
+                           
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+<!--  validation fail modal ends-->
 <!-- date validation fail modal -->
             <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="invalstartdate">
                 <div class="modal-dialog modal-sm" role="document">
@@ -207,7 +229,7 @@ th:href="@{/webjars/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js}">
                                     <label for="activityName">Course Name</label>
                                     	<select class="form-control" name ="activityCourse" th:field="*{activityCourse}" >
                                     											
-    										<option   th:each="courses:${courseList}" th:text="${courses.courseCode} " th:value = "${courses.courseCode}"></option>
+    										<option   th:each="courses:${courseList}" th:text="${courses.courseCode} "  onchange="Validationstartdate()" th:value = "${courses.courseCode}"></option>
   									</select>
                                 </div>
                                 <div class="form-group">
@@ -324,22 +346,42 @@ function Validationenddate()
 }
 function Validationstartdate()
 {
-
+	ValidationAddactivity();
 	var startdate =  document.getElementById('startdate').value.trim();
 	
 
 	console.log("----startdate----"+startdate);
 	
-	if( (new Date(startdate) > new Date()))
+	if( (new Date(startdate).getTime() > new Date().getTime()))
 		{
-			alert("logic worked");
+			
 		}else{
 			
-			alert("user input date is " + startdate + " and function's date is " + new Date());
-			//alert('Start date should be greater than current date ');
-			document.getElementById('startdate').value = '';					
+document.getElementById('startdate').value = '';
+			
 			$('#addActivityModal').modal('toggle');
 			$('#invalstartdate').modal('show');
+			return;
+		}
+}
+
+
+function ValidationAddactivity()
+{
+
+	var newCourseName =  document.getElementById('newCourseName').value.trim();
+	
+
+	console.log("----newCourseName----"+newCourseName);
+	
+	if( newCourseName==='')
+		{
+		document.getElementById('startdate').value='';
+			$('#addActivityModal').modal('toggle');
+			$('#valselectcourse').modal('show');
+			return;	
+		}else{
+			
 			return;
 		}
 }

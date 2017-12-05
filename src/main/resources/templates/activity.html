@@ -184,16 +184,13 @@ function Validationstartdate()
 
 	console.log("----startdate----"+startdate);
 	
-	if( (new Date(startdate).getTime() >= new Date().getTime()))
+	if( (new Date(startdate).getTime() > new Date().getTime()))
 		{
 			
 		}else{
 			
-			//alert('Start date should be greater than current date ');
-			document.getElementById('startdate').value = '';
+document.getElementById('startdate').value = '';
 			
-		
-		
 			$('#addActivityModal').modal('toggle');
 			$('#invalstartdate').modal('show');
 			return;
