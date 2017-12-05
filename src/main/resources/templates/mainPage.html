@@ -346,7 +346,7 @@ function Validationenddate()
 }
 function Validationstartdate()
 {
-	ValidationAddactivity();
+
 	var startdate =  document.getElementById('startdate').value.trim();
 	
 
@@ -366,24 +366,6 @@ document.getElementById('startdate').value = '';
 }
 
 
-function ValidationAddactivity()
-{
 
-	var newCourseName =  document.getElementById('newCourseName').value.trim();
-	
-
-	console.log("----newCourseName----"+newCourseName);
-	
-	if( newCourseName==='')
-		{
-		document.getElementById('startdate').value='';
-			$('#addActivityModal').modal('toggle');
-			$('#valselectcourse').modal('show');
-			return;	
-		}else{
-			
-			return;
-		}
-}
 </script>
 </html>
