@@ -34,7 +34,16 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
 <nav class="navbar  navbar-dark">
     <!-- navbar container starts -->
     <div class="container">
-      
+      <form >
+<div th:object="${user}">
+  <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"  class="validation-message alert alert-danger" role="alert"  >
+          <button type="button" class="close" data-dismiss="alert">×</button>
+  </div> 
+  <div th:if="${#fields.hasErrors('profName')}" th:errors="*{profName}"  class="validation-message alert alert-info" role="alert"  >
+     <button type="button" class="close" data-dismiss="alert">×</button>
+  </div>                                                        
+</div>
+</form>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
            
@@ -71,7 +80,28 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
                 </div>
             </div><!-- sign in modal ends-->
 
-
+<!-- sign up fail modal -->
+            <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="invalidpass">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="text-align: center">
+                           
+                            <h4>SignUp Failed</h4>
+                        </div>
+ 						<div class="modal-body" style="text-align: center">
+ 						
+ 						<h6>Incorrect Passwords</h6>
+ 						</div>
+                       
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-target="#signUpModal" data-toggle="modal" data-dismiss="modal">Close</button>
+                           
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+<!-- sign up fail modal ends-->
 
   <!-- sign in modal -->
             <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="invalidpass">
@@ -107,23 +137,23 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
                         <div class="modal-body">
                                     <div class="form-group">
                                     <label for="profName">Professor Name</label>
-                                    <input type="name" class="form-control"   th:field="*{profName}" name="profName" id="profName" placeholder="profName"/>
+                                    <input type="name" class="form-control"   th:field="*{profName}" name="profName" id="profName" placeholder="profName" required="required"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="signUpUserName">Username:</label>
-                                    <input type="text" class="form-control" th:field="*{userName}" name="signUpUserName" id="signUpUserName" placeholder="Username"/>
+                                    <input type="text" class="form-control" th:field="*{userName}" name="signUpUserName" id="signUpUserName" placeholder="Username" required="required"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="signUpEmail">Email:</label>
-                                    <input type="email" class="form-control" name="signUpEmail" th:field="*{profEmail}"   id="signUpEmail" placeholder="Email"/>
+                                    <input type="email" class="form-control" name="signUpEmail" th:field="*{profEmail}"   id="signUpEmail" placeholder="Email" required="required"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="signUpPassword">Password:</label>
-                                    <input type="password" class="form-control" th:field="*{password}" name="signUpPassword" id="signUpPassword" placeholder="Password"/>
+                                    <input type="password" class="form-control" th:field="*{password}" name="signUpPassword" id="signUpPassword" placeholder="Password" required="required"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="signUpConfPassword">Confirm Password:</label>
-                                    <input type="password" onchange="ValidationOfData()" class="form-control" name="signUpConfPassword" id="signUpConfPassword" placeholder="Confirm Password"/>
+                                    <input type="password" onchange="ValidationOfData()" class="form-control" name="signUpConfPassword" id="signUpConfPassword" placeholder="Confirm Password" required="required"/>
                                 </div>
 
                            
@@ -156,13 +186,9 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
 </div>
 </body>
 <script type="text/javascript">
-
-
-
 function ValidationOfData()
 {
 	var password =  document.getElementById('signUpPassword').value.trim();
-
 	var confpass =  document.getElementById('signUpConfPassword').value.trim();
 	
 	console.log("----password----"+password);
@@ -175,11 +201,10 @@ function ValidationOfData()
 			
 			document.getElementById('signUpPassword').value='';
 			document.getElementById('signUpConfPassword').value='';
-
-			alert('Invalid Password');
+		
+			$('#signUpModal').modal('toggle');
+			$('#invalidpass').modal('show');
 		}
 }
-
 </script>
-
 </html>

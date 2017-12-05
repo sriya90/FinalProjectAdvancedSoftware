@@ -29,7 +29,24 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"
 th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
 ></script>
+         
+<nav class="navbar  navbar-dark">
+    <!-- navbar container starts -->
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#" th:href="@{/gotomain}" ><span class="glyphicon glyphicon-list"></span><bold> Home</bold></a>
+        </div>
 
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+           <ul class="nav navbar-nav">
+                <li><a href="features.html" th:href="@{/features}" >Features</a></li>
+                <li><a href="about.html" th:href="@{/about}">About</a></li>
+            </ul>
+ <a href="index.html" th:href="@{/logout}"  class="btn btn-primary navbar-btn pull-right col-sm-1 navbar-btn" >Logout</a>
+
+        </div>
+    </div><!-- navbar container ends -->
+</nav><!-- navbar ends -->
 <!-- jumbotron starts -->
 <div class="jumbotron text-center">
     <div class="container">
@@ -37,12 +54,12 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
     </div>
 </div>
 <div class="row">
-  <div class="col-12 col-md-9 table-responsive">
+  <div class="col-12 col-md-15 table-responsive">
                 <div class="modal-dialog modal-default" role="document">
                     <div class="modal-content">
 
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">x</button>
+                        <div class="modal-header" style="text-align:center">
+                            
                             <h4>Edit Activity</h4>
                         </div>
 	<form th:object ="${editActivity}" th:action ="@{editActivityModal}" method="post"  name="edit_activity_form" action ="edit" >
@@ -63,16 +80,15 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
     										<option  value ="Quiz">Quiz</option>
   										</select>
                                 </div>
-                                <div class="form-group">
+                                   <div class="form-group">
                                     <label for="activityDate">Activity Date</label>
-   								 <input type="date" th:field="*{activityStartDate}" class="form-control"/>
+   								 <input type="date" th:field="*{activityStartDate}" onchange="Validationstartdate()" class="form-control" id= "startdate" required="required"/>
                                 </div>
                                 
                                      <div class="form-group">
                                     <label for="activityEndDate">Activity End Date</label>
-   								 <input type="date" th:field="*{activityEndDate}" class="form-control"/>
+   								 <input type="date" th:field="*{activityEndDate}" onchange="Validationenddate()" class="form-control" id= "enddate" required="required"/>
                                 </div>
-
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -85,8 +101,104 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
                 </div>
                 </div>
 
-        
+        <!-- end date validation fail modal -->
+            <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="invalenddate">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="text-align: center">
+                           
+                            <h4>Incorrect End Date</h4>
+                        </div>
+ 						<div class="modal-body" style="text-align: center">
+ 						
+ 						<h6>Please Enter valid end date</h6>
+ 						</div>
+                       
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-target="#addActivityModal" data-toggle="modal" data-dismiss="modal">Close</button>
+                           
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+<!-- date validation fail modal ends-->
+
+<!-- date validation fail modal -->
+            <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="invalstartdate">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header" style="text-align: center">
+                           
+                            <h4>Incorrect Start Date</h4>
+                        </div>
+ 						<div class="modal-body" style="text-align: center">
+ 						
+ 						<h6>Please Enter valid start date</h6>
+ 						</div>
+                       
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" data-target="#addActivityModal" data-toggle="modal" data-dismiss="modal">Close</button>
+                           
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+<!-- date validation fail modal ends-->
 
 
 </body>
+
+<script type="text/javascript">
+
+
+
+function Validationenddate()
+{
+	var enddate =  document.getElementById('enddate').value.trim();
+
+	var startdate =  document.getElementById('startdate').value.trim();
+	
+	console.log("----enddate----"+enddate);
+	console.log("----startdate----"+startdate);
+	
+	if( (new Date(enddate).getTime() >= new Date(startdate).getTime()))
+		{
+			//alert('Quantity is empty \n \nPlease Enter value For Quantity Field.');
+	console.log("------------");
+		}else{
+			
+			document.getElementById('enddate').value = '';
+			
+			$('#addActivityModal').modal('toggle');
+			$('#invalenddate').modal('show');
+			return;
+		}
+}
+function Validationstartdate()
+{
+
+	var startdate =  document.getElementById('startdate').value.trim();
+	
+
+	console.log("----startdate----"+startdate);
+	
+	if( (new Date(startdate).getTime() >= new Date().getTime()))
+		{
+			
+		}else{
+			
+			//alert('Start date should be greater than current date ');
+			document.getElementById('startdate').value = '';
+			
+		
+		
+			$('#addActivityModal').modal('toggle');
+			$('#invalstartdate').modal('show');
+			return;
+		}
+}
+</script>
+
 </html>

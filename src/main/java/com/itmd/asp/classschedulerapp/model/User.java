@@ -3,8 +3,10 @@ package com.itmd.asp.classschedulerapp.model;
  import java.util.Date;
 
  import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
- import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.CreatedDate;
  import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  import org.springframework.data.annotation.LastModifiedDate;
  import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,8 +25,11 @@ public class User implements Serializable{
 
 
 	private String profName;
+
 	private String password;
+  
 	private String profEmail;
+  
 	private String userName;
 	public long getProfId() {
 		return profId;

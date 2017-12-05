@@ -3,8 +3,9 @@ package com.itmd.asp.classschedulerapp.model;
  import java.util.Date;
 
  import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
- import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.CreatedDate;
  import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  import org.springframework.data.annotation.LastModifiedDate;
  import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -28,6 +29,7 @@ public class Course implements Serializable{
 	private String sem;
 	private String taName;
 	private String taEmail;
+	
 	private String taPhone;
 	public long getCourseId() {
 	return courseId;
