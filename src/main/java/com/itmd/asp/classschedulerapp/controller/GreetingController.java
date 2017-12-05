@@ -4,10 +4,12 @@ package com.itmd.asp.classschedulerapp.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,9 +47,23 @@ public class GreetingController {
     }
 
     @PostMapping(value ="/**/saveUser")
-    public String save(@ModelAttribute User user,HttpSession session,Model model) {
-   	userRepositary.save(user);
+    public String save(@Valid @ModelAttribute("user") User user,BindingResult result) {
 
+
+String username = userRepositary.findUserByUsername(user.getUserName());
+if((username != null && !username.trim().isEmpty()))
+{
+	System.out.println("sacve");
+	result.rejectValue("userName", "messageCode", "   Username Already Exists try again");
+	System.out.println("sacve");
+
+}
+else
+{
+	userRepositary.save(user);
+	result.rejectValue("profName", "messageCode", "	 Successfully Registered !!!!");
+
+}
         return "index";
     }
     
@@ -61,7 +77,7 @@ public class GreetingController {
         return "features";
     }
     @PostMapping(value ="/**/validateUser")
-    public String validateUser(@ModelAttribute User user,HttpSession session,Model model,RedirectAttributes redirectAttributes) {
+    public String validateUser(@ModelAttribute User user,HttpSession session,Model model,RedirectAttributes redirectAttributes,BindingResult result) {
    User username = userRepositary.findUserByUsernamePassword(user.getUserName(),user.getPassword());
    if(username!=null)
    {
@@ -87,6 +103,8 @@ public class GreetingController {
     }
    else
    {
+		result.rejectValue("userName", "messageCode", "   Username Password doesn't match OR User does not exist");
+
 	   return"index";
    }
    

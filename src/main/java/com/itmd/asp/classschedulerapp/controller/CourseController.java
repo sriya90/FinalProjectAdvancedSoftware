@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,39 +41,52 @@ public class CourseController {
     private CourseRepository courseRepositary;
     private Long currentID;
     private Boolean callFromCourse;
-    private Course course;
+    private Course courses;
     @Autowired
     private ActivityService activityService;
     @PostMapping(value = {"/**/saveCourse"})
-    public ModelAndView save(@ModelAttribute("Course") Course course,HttpSession session,Model model) {
+    public String save(@Valid @ModelAttribute("course") Course course,HttpSession session,Model model,BindingResult result) {
 
-   String userName =  (String)session.getAttribute("username");
-  	course.setUserName(userName);
-    	courseRepositary.save(course);
+    		String userName =  (String)session.getAttribute("username");
+    		course.setUserName(userName);
+    		String courseExitsts = courseRepositary.findByCourseCodeForUser(course.getCourseCode(),userName);
+
+    		if((courseExitsts != null && !courseExitsts.trim().isEmpty()))
+    		{
+    			result.rejectValue("userName", "messageCode", "Course Already Exists try again");
+    	       	model.addAttribute("course", course);
+
+    		}
+    		else
+    		{
+
+    			courseRepositary.save(course);
+    	       	model.addAttribute("course", new Course());
+
+    		}
         List<Course> tests = courseRepositary.findAllByCoursesId(userName);
         model.addAttribute("courseList", tests);
-        model.addAttribute("course", new Course());
         model.addAttribute("activity", new Activity());
        	List<Activity> listActivity = 	activityService.findActivityByUserName(userName);
-    	
-  	  model.addAttribute("course", new Course());
+		
+  	
   	  model.addAttribute("activityList", listActivity);
        
     	  System.out.println("heereadddingcourse");
-    	  return new ModelAndView("mainPage");
+    	  return "mainPage";
     }
 
     @GetMapping(value = {"/**/course/view/{courseCode}"})
     public ModelAndView viewCourse(@PathVariable String courseCode,Model model,HttpSession session) {
 
   	  System.out.println("here showing course"+courseCode);
-  	   course = courseRepositary.findByCoursesCode(courseCode);
+  	   courses = courseRepositary.findByCoursesCode(courseCode);
   	   session.setAttribute("courseCode", courseCode);
-  	  model.addAttribute("CourseName", course.getCourseName()+" : "+course.getCourseCode());
-  	  model.addAttribute("course", course);
+  	  model.addAttribute("CourseName", courses.getCourseName()+" : "+courses.getCourseCode());
+  	  model.addAttribute("course", courses);
       model.addAttribute("activity", new Activity());
       
-   	   List<Activity> listActivity = 	activityService.findActivityByCoursesCode(course.getCourseCode());
+   	   List<Activity> listActivity = 	activityService.findActivityByCoursesCode(courses.getCourseCode());
    	model.addAttribute("activityForCourseList", listActivity);
 	 RedirectView rv = new RedirectView("course");
      rv.setExposeModelAttributes(false);
@@ -86,12 +100,12 @@ public class CourseController {
 
     	   System.out.println("here showing course"+userName);
     	   activity.setUserName(userName);
-    	   activity.setActivityCourse(course.getCourseCode());
+    	   activity.setActivityCourse(courses.getCourseCode());
     	 	activityService.addActivity(activity);
-    	   	   List<Activity> listActivity = 	activityService.findActivityByCoursesCode(course.getCourseCode());
+    	   	   List<Activity> listActivity = 	activityService.findActivityByCoursesCode(courses.getCourseCode());
     	      	model.addAttribute("activityForCourseList", listActivity);
-    	      	 model.addAttribute("CourseName", course.getCourseName()+" : "+course.getCourseCode());
-    	  model.addAttribute("course",course);
+    	      	 model.addAttribute("CourseName", courses.getCourseName()+" : "+courses.getCourseCode());
+    	  model.addAttribute("course",courses);
     	  model.addAttribute("activity", new Activity());
 
         return "course";
@@ -101,10 +115,10 @@ public class CourseController {
         activityService.deleteActivity(activityId);
         System.out.println("deleting activity"+request.toString());
  	   String userName =  (String)session.getAttribute("username");
-   	   List<Activity> listActivity = 	activityService.findActivityByCoursesCode(course.getCourseCode());
+   	   List<Activity> listActivity = 	activityService.findActivityByCoursesCode(courses.getCourseCode());
       	model.addAttribute("activityForCourseList", listActivity);
-      	 model.addAttribute("CourseName", course.getCourseName()+" : "+course.getCourseCode());
-  model.addAttribute("course",course);
+      	 model.addAttribute("CourseName", courses.getCourseName()+" : "+courses.getCourseCode());
+  model.addAttribute("course",courses);
   model.addAttribute("activity", new Activity());
 
      return "course";
@@ -168,10 +182,10 @@ public class CourseController {
     	   activityService.editActivity(currentID,activity);
     	   if(callFromCourse)
     	   {
-    		   List<Activity> listActivity = 	activityService.findActivityByCoursesCode(course.getCourseCode());
+    		   List<Activity> listActivity = 	activityService.findActivityByCoursesCode(courses.getCourseCode());
     		   model.addAttribute("activityForCourseList", listActivity);
-    		   model.addAttribute("CourseName", course.getCourseName()+" : "+course.getCourseCode());
-    		   model.addAttribute("course",course);
+    		   model.addAttribute("CourseName", courses.getCourseName()+" : "+courses.getCourseCode());
+    		   model.addAttribute("course",courses);
     		   model.addAttribute("activity", new Activity());
     		   callFromCourse = false;
     		   return "/course";
@@ -188,9 +202,6 @@ else
 
     	  model.addAttribute("activityList", listActivity);
     	  model.addAttribute("courseList", tests);
-    	  String referer = request.getHeader("referer");
-
-     	 System.out.println("heereaddding activity"+ request.getRequestURL() + request.getQueryString()  );
 
      	return "/mainPage";
 }

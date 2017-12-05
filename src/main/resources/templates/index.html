@@ -29,16 +29,25 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"
 th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
 ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.min.js"></script>
+
 
 <!--navbar satarts-->
 <nav class="navbar  navbar-dark">
     <!-- navbar container starts -->
     <div class="container">
-      
-
+   
+<form >
+<div th:object="${user}">
+  <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"  class="validation-message alert alert-danger" role="alert"  >
+          <button type="button" class="close" data-dismiss="alert">×</button>
+  </div> 
+  <div th:if="${#fields.hasErrors('profName')}" th:errors="*{profName}"  class="validation-message alert alert-info" role="alert"  >
+     <button type="button" class="close" data-dismiss="alert">×</button>
+  </div>                                                        
+</div>
+</form>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-           
-
 
           <!-- sign in modal -->
             <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="loginModal">
@@ -49,6 +58,7 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
                             <h4>Login to Course Scheduler</h4>
                         </div>
  <form th:object ="${user}" th:action ="@{validateUser}" method="post" action='#' name="vaidate_user_form">
+ 
                         
                         <div class="modal-body">
                            
@@ -88,22 +98,32 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
                                     <div class="form-group">
                                     <label for="profName">Professor Name</label>
                                     <input type="name" class="form-control"   th:field="*{profName}" name="profName" id="profName" placeholder="profName" required="required"/>
+                                     <span th:if="${#fields.hasErrors('profName')}" th:errors="*{profName}" class="text-danger"></span>
+                                    
+                                    
                                 </div>
                                 <div class="form-group">
                                     <label for="signUpUserName">Username:</label>
-                                    <input type="text" class="form-control" th:field="*{userName}" name="signUpUserName" id="signUpUserName" placeholder="Username" required="required"/>
+                                    <input type="text" class="form-control" th:field="*{userName}" name="signUpUserName" id="signUpUserName" placeholder="Username" required="required" />
+								 <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="text-danger"></span>
+                              
                                 </div>
                                 <div class="form-group">
                                     <label for="signUpEmail">Email:</label>
-                                    <input type="email" class="form-control" name="signUpEmail" th:field="*{profEmail}"   id="signUpEmail" placeholder="Email" required="required"/>
+                                    <input type="email" class="form-control" name="signUpEmail" th:field="*{profEmail}"   id="signUpEmail" placeholder="Email" required="required" />
+								 <span th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}" class="text-danger"></span>
+                              
                                 </div>
                                 <div class="form-group">
                                     <label for="signUpPassword">Password:</label>
-                                    <input type="password" class="form-control" th:field="*{password}" name="signUpPassword" id="signUpPassword" placeholder="Password" required="required"/>
+                                    <input type="password" class="form-control" th:field="*{password}"  id="signUpPassword" placeholder="Password" required="required"/>
+                                		
                                 </div>
                                 <div class="form-group">
                                     <label for="signUpConfPassword">Confirm Password:</label>
-                                    <input type="password" class="form-control" name="signUpConfPassword" id="signUpConfPassword" placeholder="Confirm Password" required="required"/>
+                                    <input type="password" class="form-control" name="signUpConfPassword" id="signUpConfPassword" placeholder="Confirm Password"
+                                     data-match="#signUpPassword" data-match-error="Whoops, these don't match"  required="required"/>
+                                     <div class="help-block with-errors"></div>
                                 </div>
 
                            

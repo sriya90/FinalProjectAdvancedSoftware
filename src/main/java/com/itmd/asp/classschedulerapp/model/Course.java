@@ -3,9 +3,8 @@ package com.itmd.asp.classschedulerapp.model;
  import java.util.Date;
 
  import javax.persistence.*;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.CreatedDate;
  import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  import org.springframework.data.annotation.LastModifiedDate;
@@ -29,9 +28,8 @@ public class Course implements Serializable{
 	private String courseCode;
 	private String sem;
 	private String taName;
-	@Email
 	private String taEmail;
-	@Min(10)
+	
 	private String taPhone;
 	public long getCourseId() {
 	return courseId;
