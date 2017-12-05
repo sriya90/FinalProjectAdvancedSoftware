@@ -56,6 +56,15 @@ public class GreetingController {
         return "about";
     }
     
+
+    @GetMapping(value ="/**/logout")
+    public String logout(Model model) {
+    	
+    	model.addAttribute("user", new User());
+        return "index";
+    }
+    
+    
     @GetMapping(value ="/**/features")
     public String features() {
         return "features";
