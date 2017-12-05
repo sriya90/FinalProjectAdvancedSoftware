@@ -166,12 +166,12 @@ th:href="@{/webjars/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js}">
                                 </div>
                                 <div class="form-group">
                                     <label for="activityDate">Activity Date</label>
-   								 <input type="date" th:field="*{activityStartDate}" class="form-control"/>
+   								 <input type="date" th:field="*{activityStartDate}" onchange="Validationstartdate()" class="form-control" id= "startdate"/>
                                 </div>
                                 
                                      <div class="form-group">
                                     <label for="activityEndDate">Activity End Date</label>
-   								 <input type="date" th:field="*{activityEndDate}" class="form-control"/>
+   								 <input type="date" th:field="*{activityEndDate}" onchange="Validationenddate()" class="form-control" id= "enddate"/>
                                 </div>
 
                                 <div class="form-group">
@@ -241,4 +241,46 @@ th:href="@{/webjars/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js}">
 
 
 </body>
+
+<script type="text/javascript">
+
+
+
+function Validationenddate()
+{
+	var enddate =  document.getElementById('enddate').value.trim();
+
+	var startdate =  document.getElementById('startdate').value.trim();
+	
+	console.log("----enddate----"+enddate);
+	console.log("----startdate----"+startdate);
+	
+	if( (new Date(enddate).getTime() > new Date(startdate).getTime()))
+		{
+			//alert('Quantity is empty \n \nPlease Enter value For Quantity Field.');
+	console.log("------------");
+		}else{
+			
+			alert('End date should be greater than start date ');
+			return;
+		}
+}
+function Validationstartdate()
+{
+
+	var startdate =  document.getElementById('startdate').value.trim();
+	
+
+	console.log("----startdate----"+startdate);
+	
+	if( (new Date(startdate).getTime() > new Date().getTime()))
+		{
+			
+		}else{
+			
+			alert('Start date should be greater than current date ');
+			return;
+		}
+}
+</script>
 </html>
