@@ -40,7 +40,7 @@ th:href="@{/webjars/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js}">
     <!-- navbar container starts -->
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-list"></span><bold> Course Scheduler</bold></a>
+            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-list"></span><bold> Home </bold></a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -201,9 +201,7 @@ th:href="@{/webjars/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js}">
                 <a href="#" class="list-group-item active">Course List</a>
                 <a   class="list-group-item" th:each="courses:${courseList}" th:text="${courses.courseName} +' : '+ ${courses.courseCode} " th:href="@{course/view/{courseCode}(courseCode=${courses.courseCode})}"></a>
             </div>
-            <div>
-                <button type="button" class="btn btn-primary btn-block">Activity Log</button>
-            </div>
+        
         </div><!-- left sidebard ends -->
 
         <!-- Right panel starts -->
