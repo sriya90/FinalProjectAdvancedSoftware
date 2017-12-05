@@ -73,24 +73,28 @@ th:href="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"
 
 
 
-  <!-- sign in modal -->
+  <!-- sign up fail modal -->
             <div class="modal fade" data-kayboard="false" data-backdrop="static"  id="invalidpass">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header" style="text-align: center">
                            
-                            <h4>Login to Course Scheduler</h4>
+                            <h4>SignUp Failed</h4>
                         </div>
+ 						<div class="modal-body" style="text-align: center">
  						
+ 						<h6>Incorrect Passwords</h6>
+ 						</div>
                        
                         <div class="modal-footer">
-                            <button class="btn btn-primary" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" data-target="#signUpModal" data-toggle="modal" data-dismiss="modal">Close</button>
                            
                         </div>
                        
                     </div>
                 </div>
-            </div><!-- sign in modal ends-->
+            </div>
+   <!-- sign up fail modal ends-->
 
 
             <!-- signup-->
@@ -175,8 +179,9 @@ function ValidationOfData()
 			
 			document.getElementById('signUpPassword').value='';
 			document.getElementById('signUpConfPassword').value='';
-
-			alert('Invalid Password');
+		
+			$('#signUpModal').modal('toggle');
+			$('#invalidpass').modal('show');
 		}
 }
 
